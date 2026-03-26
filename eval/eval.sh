@@ -46,11 +46,13 @@ TC="40/120"
 # Stockfish gets 1/5th the time (120 / 5 = 24)
 SF_TC="40/24"
 
-# Use SPRT for statistical significance
-SPRT_ARGS="-sprt elo0=0 elo1=10 alpha=0.05 beta=0.05"
+# Use SPRT for statistical significance (Widened to 0-35 for <1 min iterations)
+SPRT_ARGS="-sprt elo0=0 elo1=35 alpha=0.05 beta=0.05"
 
-# Adjudication: End games early if score is decisive to save time
-ADJUDICATION="-resign movecount=3 score=600"
+# Adjudication: End games early to save time
+# - Resign if score > 6.00 for 3 moves
+# - Draw if score < 0.10 for 8 moves after move 34
+ADJUDICATION="-resign movecount=3 score=600 -draw movenumber=34 movecount=8 score=10"
 
 # --- Helper: output summary and exit ---
 summary() {
